@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ReactStrap</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+    class Navbar extends React.Component {
+        constructor(props){
+          super(props);
+
+          this.change = this.change.bind(this);
+        }
+        change(page){
+          this.changes=page;
+        };
+        render() {
+        return (
+          <nav className="navbar navbar-default">
+            <div className="container">
+              <div className="navbar-header">
+                <a className="navbar-brand" href="#">{this.props.brand}</a>
+              </div>
+              <div id="navbar">
+                <ul className="nav navbar-nav">
+                  <li className={(this.props.currentPage == 'home' ? 'active': '')}><a onClick={this.change.bind(this,'home')} href="#">Home</a></li>
+                  <li className={(this.props.currentPage == 'about' ? 'active': '')}><a href="#">About</a></li>
+                  <li className={(this.props.currentPage == 'contact' ? 'active': '')}><a href="#">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        );
+      }
+    }
+
+    /*Navbar.propTypes = {
+      changes: PropTypes.string,
+    };
+    Navbar.defaultProps = {
+      changes:'home'
+    };*/
+
+    class Jumbotron extends React.Component {
+      render() {
+        return (
+          <div>
+          <div className="jumbotron">
+            <div className="container">
+              <h1>{this.props.heading}</h1>
+              <p className="lead">{this.props.text}</p>
+              <p><a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+            </div>
+          </div>
+          </div>
+        );
+      }
+    }
+
+    class Page extends React.Component {
+      render() {
+        var pageContent;
+        if(this.props.currentPage == 'home'){
+          pageContent = 'This is the home page';
+        } else if(this.props.currentPage == 'about'){
+          pageContent = 'This the the about page';
+        } else if(this.props.currentPage == 'contact'){
+          pageContent = 'This the the contact page';
+        } else {
+          pageContent = 'This is the home page';
+        }
+        return (
+          <div className="container">
+            <h2>{this.props.currentPage.charAt(0).toUpperCase() + this.props.currentPage.slice(1)}</h2>
+            {pageContent}
+          </div>
+        );
+      }
+    }
+
+    class Theme extends React.Component {
+      constructor(props){
+        super(props);
+        this.state={currentPage: 'home'};
+
+        this.handleChange = this.handleChange.bind(this);
+      }
+        handleChange(){
+          alert(page);
+        };
+      render() {
+        return (
+          <div>
+            <Navbar currentPage={this.state.currentPage} brand={this.props.brand} changes={this.handleChange} />
+            <Jumbotron heading={this.props.heading} text={this.props.text} />
+            <Page currentPage={this.state.currentPage} />
+          </div>
+        );
+      }
+    }
+
+    Theme.propTypes = {
+      brand: PropTypes.string,
+      heading: PropTypes.string,
+      text: PropTypes.string
+    };
+
+    Theme.defaultProps = {
+      brand:'ReactStrap',
+      heading:'Hello, world!',
+      text:'This is a Bootstrap theme that uses React.js components'
+    };
+
+    ReactDOM.render(
+      <Theme />,
+      document.getElementById('root')
+    );
+    </script>
+  </body>
+</html>
